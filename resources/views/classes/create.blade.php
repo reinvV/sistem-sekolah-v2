@@ -5,28 +5,19 @@
 @section('content')
 <main class="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
     <div class="mb-8 border-b border-[#E5E3DB] pb-5">
-        <a href="{{ route('students.index') }}" class="text-xs uppercase tracking-[0.15em] text-slate-400 hover:text-[#A16207]">
-            &larr; Buku Induk
+        <a href="{{ route('classes.index') }}" class="text-xs uppercase tracking-[0.15em] text-slate-400 hover:text-[#A16207]">
+            &larr; Daftar Kelas
         </a>
-        <h1 class="font-display mt-2 text-3xl font-semibold text-[#16213A]">Catat Siswa Baru</h1>
-        <p class="mt-1 text-sm text-slate-500">Isi data untuk mendaftarkan siswa ke buku induk.</p>
+        <h1 class="font-display mt-2 text-3xl font-semibold text-[#16213A]">Catat Kelas Baru</h1>
+        <p class="mt-1 text-sm text-slate-500">Isi data untuk menambahkan kelas baru.</p>
     </div>
 
-    <form action="{{ route('students.store') }}" method="POST" class="space-y-6 border border-[#E5E3DB] bg-white p-8">
+    <form action="{{ route('classes.store') }}" method="POST" class="space-y-6 border border-[#E5E3DB] bg-white p-8">
         @csrf
 
         <div>
-            <label for="nis" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">NIS</label>
-            <input type="text" id="nis" name="nis" value="{{ old('nis') }}" placeholder="Contoh: 2024010"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
-            @error('nis')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
-
-        <div>
-            <label for="name" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Nama Lengkap</label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Nama lengkap siswa"
+            <label for="name" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Nama Kelas</label>
+            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Contoh: XII AKL 1"
                 class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
             @error('name')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -34,13 +25,15 @@
         </div>
 
         <div>
-            <label for="gender" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jenis Kelamin</label>
-            <select id="gender" name="gender"
+            <label for="grade" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Tingkat</label>
+            <select id="grade" name="grade"
                 class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
-                <option value="L" {{ old('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                <option value="P" {{ old('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                <option value="">Pilih Tingkat</option>
+                <option value="X" {{ old('grade') == 'X' ? 'selected' : '' }}>X</option>
+                <option value="XI" {{ old('grade') == 'XI' ? 'selected' : '' }}>XI</option>
+                <option value="XII" {{ old('grade') == 'XII' ? 'selected' : '' }}>XII</option>
             </select>
-            @error('gender')
+            @error('grade')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
         </div>
@@ -49,7 +42,7 @@
             <label for="major" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jurusan</label>
             <select id="major" name="major"
                 class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
-                <option value="">Pilih jurusan</option>
+                <option value="">Pilih Jurusan</option>
                 <option value="AKL" {{ old('major') == 'AKL' ? 'selected' : '' }}>AKL</option>
                 <option value="TKJ" {{ old('major') == 'TKJ' ? 'selected' : '' }}>TKJ</option>
                 <option value="BiD" {{ old('major') == 'BiD' ? 'selected' : '' }}>BiD</option>
@@ -60,19 +53,19 @@
         </div>
 
         <div>
-            <label for="class" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Kelas</label>
-            <input type="text" id="class" name="class" value="{{ old('class') }}" placeholder="Contoh: X AKL 1"
+            <label for="homeroom_teacher" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Wali Kelas</label>
+            <input type="text" id="homeroom_teacher" name="homeroom_teacher" value="{{ old('homeroom_teacher') }}" placeholder="Nama Wali Kelas"
                 class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
-            @error('class')
+            @error('homeroom_teacher')
                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
             @enderror
         </div>
 
         <div class="flex justify-end gap-4 border-t border-[#EFEDE6] pt-6">
-            <a href="{{ route('students.index') }}" class="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-[#16213A]">Batal</a>
+            <a href="{{ route('classes.index') }}" class="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-[#16213A]">Batal</a>
             <button type="submit"
                 class="bg-[#16213A] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#26324f]">
-                Simpan ke Buku Induk
+                Simpan Data Kelas
             </button>
         </div>
     </form>

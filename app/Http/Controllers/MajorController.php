@@ -4,40 +4,148 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+//---------------------------------------------------------------------------------------------------------------------------------(Data management)
+
 class MajorController extends Controller
 {
     public function index()
     {
-        return "Menampilkan halaman daftar siswa";
+        $title = 'Sistem Sekolah - Daftar Jurusan';
+        $majors = [
+            [
+                'id' => 1,
+                'code' => 'AKL',
+                'name' => 'Akuntansi dan Keuangan Lembaga',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pencatatan dan pelaporan keuangan.',
+            ],
+            [
+                'id' => 2,
+                'code' => 'TKJ',
+                'name' => 'Teknik Komputer dan Jaringan',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi instalasi, konfigurasi, dan pemeliharaan jaringan komputer.',
+            ],
+            [
+                'id' => 3,
+                'code' => 'BD',
+                'name' => 'Bisnis Digital',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pemasaran dan pengelolaan bisnis berbasis digital.',
+            ],
+        ];
+
+        return view('majors.index', [
+            'title' => $title,
+            'majors' => $majors,
+        ]);
+    }
+
+//---------------------------------------------------------------------------------------------------------------------------------(Major function)
+
+    public function show(string $id)
+    {
+        $title = 'Sistem Sekolah - Detail Jurusan';
+
+        $majors = [
+            [
+                'id' => 1,
+                'code' => 'AKL',
+                'name' => 'Akuntansi dan Keuangan Lembaga',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pencatatan dan pelaporan keuangan.',
+            ],
+            [
+                'id' => 2,
+                'code' => 'TKJ',
+                'name' => 'Teknik Komputer dan Jaringan',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi instalasi, konfigurasi, dan pemeliharaan jaringan komputer.',
+            ],
+            [
+                'id' => 3,
+                'code' => 'BD',
+                'name' => 'Bisnis Digital',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pemasaran dan pengelolaan bisnis berbasis digital.',
+            ],
+        ];
+
+        $major = collect($majors)->firstWhere('id', (int) $id);
+
+        if (!$major) {
+            abort(404, 'Jurusan tidak ditemukan');
+        }
+
+        return view('majors.show', [
+            'title' => $title,
+            'major' => $major,
+        ]);
     }
 
     public function create()
     {
-        return "Menampilkan halaman tambah siswa";
+        $title = 'Sistem Sekolah - Catat Jurusan';
+
+        return view('majors.create', [
+            'title' => $title,
+        ]);
     }
 
-    public function store()
+    public function edit(string $id)
     {
-        return "Melakukan penambahan data siswa";
+        $title = 'Sistem Sekolah - Edit Jurusan';
+
+        $majors = [
+            [
+                'id' => 1,
+                'code' => 'AKL',
+                'name' => 'Akuntansi dan Keuangan Lembaga',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pencatatan dan pelaporan keuangan.',
+            ],
+            [
+                'id' => 2,
+                'code' => 'TKJ',
+                'name' => 'Teknik Komputer dan Jaringan',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi instalasi, konfigurasi, dan pemeliharaan jaringan komputer.',
+            ],
+            [
+                'id' => 3,
+                'code' => 'BD',
+                'name' => 'Bisnis Digital',
+                'description' => 'Program keahlian yang membekali murid dengan kompetensi pemasaran dan pengelolaan bisnis berbasis digital.',
+            ],
+        ];
+
+        $major = collect($majors)->firstWhere('id', (int) $id);
+
+        if (!$major) {
+            abort(404, 'Jurusan tidak ditemukan');
+        }
+
+        return view('majors.edit', [
+            'title' => $title,
+            'major' => $major,
+        ]);
     }
 
-    public function show($id)
+    public function update(string $id)
     {
-        return "Menampilkan siswa dengan ID: {$id}";
+        return "updating major with ID: $id";
     }
 
-    public function edit($id)
+    public function destroy(string $id)
     {
-        return "Menampilkan halaman edit siswa";
+        $title = "Sistem Sekolah - Hapus Data Jurusan";
+        return "deleting major with ID: $id";
     }
 
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        return "Melakukan perubahan data siswa";
-    }
+        $title = "Sistem Sekolah - Menambah Jurusan";
 
-    public function destroy($id)
-    {
-        return "Menghapus data siswa";
+        $validated = $request->validate([
+            'code' => 'required|string|max:10',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+        ]);
+
+        // TODO: persist $validated somewhere real
+
+        return redirect()->route('majors.index')->with('success', 'Jurusan berhasil ditambahkan.');
     }
 }

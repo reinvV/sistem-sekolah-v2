@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 
 class DestroyController extends Controller
 {
-    public function __invoke($id)
+    public function destroy(string $id)
     {
-        return "Menghapus data siswa";
+        return "deleting Class with ID: $id";
     }
 }
