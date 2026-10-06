@@ -1,92 +1,86 @@
 <?php
 
-use App\Http\Controllers\SchoolClass\CreateController;
-use App\Http\Controllers\SchoolClass\DestroyController;
-use App\Http\Controllers\SchoolClass\EditController;
-use App\Http\Controllers\SchoolClass\IndexController;
-use App\Http\Controllers\SchoolClass\ShowController;
-use App\Http\Controllers\SchoolClass\StoreController;
-use App\Http\Controllers\SchoolClass\UpdateController;
-use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\MajorController;
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SchoolClass\IndexController;
+use App\Http\Controllers\SchoolClass\CreateController;
+use App\Http\Controllers\SchoolClass\StoreController;
+use App\Http\Controllers\SchoolClass\ShowController;
+use App\Http\Controllers\SchoolClass\EditController;
+use App\Http\Controllers\SchoolClass\UpdateController;
+use App\Http\Controllers\SchoolClass\DestroyController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-//---------------------------------------------------------------------------------------------------------------------------------//(Students)
-Route::name('students.')->prefix('students')->group(function () {
-    
-    //page
 
-    Route::get('/', [StudentController::class, 'index'])->name('index');
 
-    Route::get('/create', [StudentController::class, 'create'])->name('create');
+// Management Data Student (Action Controller)
+Route::name('students.')->prefix('students')->controller(StudentController::class)->group(function () {
 
-    Route::get('/{id}/edit', [StudentController::class, 'edit'])->name('edit');
+    Route::get('/', 'index')->name('index');
 
-    Route::get('/{id}', [StudentController::class, 'show'])->name('show');
+    Route::get('/create', 'create')->name('create');
 
-    //logic
+    Route::get('/{student}', 'show')->name('show')->whereNumber('student');
 
-    Route::put('/{id}', [StudentController::class, 'update'])->name('update');
+    Route::get('/{student}/edit', 'edit')->name('edit')->whereNumber('student');
 
-    Route::delete('/{id}', [StudentController::class, 'destroy'])->name('destroy');
+    Route::post('/', 'store')->name('store');
 
-    Route::post('/', [StudentController::class, 'store'])->name('store');
+    Route::put('/{student}', 'update')->name('update')->whereNumber('student');
+
+    Route::delete('/{student}', 'destroy')->name('destroy')->whereNumber('student');
 
 });
-//---------------------------------------------------------------------------------------------------------------------------------//(Teachers)
-Route::name('teachers.')->prefix('teachers')->group(function () {
-    
-    //page
 
-    Route::get('/', [TeacherController::class, 'index'])->name('index');
+// Management Data Teacher (Action Controller)
+Route::name('teachers.')->prefix('teachers')->controller(TeacherController::class)->group(function () {
 
-    Route::get('/create', [TeacherController::class, 'create'])->name('create');
+    Route::get('/', 'index')->name('index');
 
-    Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('edit');
+    Route::get('/create', 'create')->name('create');
 
-    Route::get('/{id}', [TeacherController::class, 'show'])->name('show');
+    Route::get('/{id}', 'show')->name('show')->whereNumber('id');
 
-    //logic
+    Route::get('/{id}/edit', 'edit')->name('edit')->whereNumber('id');
 
-    Route::put('/{id}', [TeacherController::class, 'update'])->name('update');
+    Route::post('/', 'store')->name('store');
 
-    Route::delete('/{id}', [TeacherController::class, 'destroy'])->name('destroy');
+    Route::put('/{id}', 'update')->name('update')->whereNumber('id');
 
-    Route::post('/', [TeacherController::class, 'store'])->name('store');
+    Route::delete('/{id}', 'destroy')->name('destroy')->whereNumber('id');
 
 });
-//---------------------------------------------------------------------------------------------------------------------------------//(School Classes)
+
+// Management SchoolClass (Invokable)
+
 Route::name('classes.')->prefix('classes')->group(function () {
-    
-    //page
+    // Halaman Daftar Class
+    Route::get('/', IndexController::class)->name('index');
 
-    Route::get('/', [IndexController::class, 'index'])->name('index');
+    // Halaman Tambah Class
+    Route::get('/create', CreateController::class)->name('create');
 
-    Route::get('/create', [CreateController::class, 'create'])->name('create'); // <-- changed
+    // Halaman Detail Class
+    Route::get('/{id}', ShowController::class)->name('show')->whereNumber('id');
 
-    Route::get('/{id}/edit', [EditController::class, 'edit'])->name('edit');
+    // Halaman Edit Class
+    Route::get('/{id}/edit', EditController::class)->name('edit')->whereNumber('id');
 
-     Route::get('/{id}', [ShowController::class, 'show'])->name('show');
+    // Logika Tambah Class
+    Route::post('/', StoreController::class)->name('store');
 
-    //logic
+    // Logika Edit Class
+    Route::put('/{id}', UpdateController::class)->name('update')->whereNumber('id');
 
-    Route::put('/{id}', [UpdateController::class, 'update'])->name('update');
-
-    Route::delete('/{id}', [DestroyController::class, 'destroy'])->name('destroy');
-
-    Route::post('/', [StoreController::class, 'store'])->name('store');
-
+    // Logika Hapus Class
+    Route::delete('/{id}', DestroyController::class)->name('destroy')->whereNumber('id');
 });
 
-//---------------------------------------------------------------------------------------------------------------------------------//(Major)
-    Route::resource('majors', MajorController::class);
+// Management Major (Resource Controller)
 
-
-// Route::get('/students/{id}', function ($id) {
-//     return "menampilkan detail siswa dengan ID: $id";
-// })->name('students.show');   
+Route::resource('majors', MajorController::class);

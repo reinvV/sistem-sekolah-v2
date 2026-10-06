@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-//---------------------------------------------------------------------------------------------------------------------------------(Data management)
-
 class MajorController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $title = 'Sistem Sekolah - Daftar Jurusan';
+        $title = "Sistem Sekolah - Daftar Jurusan";
         $majors = [
             [
                 'id' => 1,
@@ -31,19 +32,38 @@ class MajorController extends Controller
                 'description' => 'Program keahlian yang membekali murid dengan kompetensi pemasaran dan pengelolaan bisnis berbasis digital.',
             ],
         ];
-
         return view('majors.index', [
             'title' => $title,
-            'majors' => $majors,
+            'majors' => $majors
         ]);
     }
 
-//---------------------------------------------------------------------------------------------------------------------------------(Major function)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $title = "Sistem Sekolah - Tambah Jurusan";
 
+        return view('majors.create', [
+            'title' => $title
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        return "Storing new major";
+    }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(string $id)
     {
-        $title = 'Sistem Sekolah - Detail Jurusan';
-
+        $title = "Sistem Sekolah - Detail Jurusan";
         $majors = [
             [
                 'id' => 1,
@@ -65,31 +85,20 @@ class MajorController extends Controller
             ],
         ];
 
-        $major = collect($majors)->firstWhere('id', (int) $id);
-
-        if (!$major) {
-            abort(404, 'Jurusan tidak ditemukan');
-        }
+        $majors = collect($majors)->firstWhere('id', $id);
 
         return view('majors.show', [
             'title' => $title,
-            'major' => $major,
+            'major' => $majors
         ]);
     }
 
-    public function create()
-    {
-        $title = 'Sistem Sekolah - Catat Jurusan';
-
-        return view('majors.create', [
-            'title' => $title,
-        ]);
-    }
-
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id)
     {
-        $title = 'Sistem Sekolah - Edit Jurusan';
-
+        $title = "Sistem Sekolah - Edit Jurusan";
         $majors = [
             [
                 'id' => 1,
@@ -110,42 +119,28 @@ class MajorController extends Controller
                 'description' => 'Program keahlian yang membekali murid dengan kompetensi pemasaran dan pengelolaan bisnis berbasis digital.',
             ],
         ];
-
-        $major = collect($majors)->firstWhere('id', (int) $id);
-
-        if (!$major) {
-            abort(404, 'Jurusan tidak ditemukan');
-        }
+        
+        $majors = collect($majors)->firstWhere('id', $id);
 
         return view('majors.edit', [
             'title' => $title,
-            'major' => $major,
+            'major' => $majors
         ]);
     }
 
-    public function update(string $id)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
     {
-        return "updating major with ID: $id";
+        return "Updating major with ID: {$id}";
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id)
     {
-        $title = "Sistem Sekolah - Hapus Data Jurusan";
-        return "deleting major with ID: $id";
-    }
-
-    public function store(Request $request)
-    {
-        $title = "Sistem Sekolah - Menambah Jurusan";
-
-        $validated = $request->validate([
-            'code' => 'required|string|max:10',
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-        ]);
-
-        // TODO: persist $validated somewhere real
-
-        return redirect()->route('majors.index')->with('success', 'Jurusan berhasil ditambahkan.');
+        return "Deleting major with ID: {$id}";
     }
 }

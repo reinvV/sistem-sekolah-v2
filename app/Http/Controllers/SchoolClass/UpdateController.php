@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function update(string $id)
+    public function __invoke(string $id)
     {
         return "updating class with ID: $id";
     }

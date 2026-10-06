@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class EditController extends Controller
 {
-    public function edit(string $id)
+    public function __invoke(string $id)
     {
         $title = 'Sistem Sekolah - Edit Kelas';
 

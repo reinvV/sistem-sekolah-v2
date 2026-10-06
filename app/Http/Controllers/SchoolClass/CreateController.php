@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 class CreateController extends Controller
     {
-        public function create()
+        public function __invoke()
     {
         $title = 'Sistem Sekolah - Catat Kelas';
 

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
     {
-                  public function index()
+    public function __invoke(Request $reqeust)
     {
         $title = 'Sistem Sekolah - Daftar Kelas';
         $classes = [

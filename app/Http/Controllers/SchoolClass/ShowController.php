@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 class ShowController extends Controller
 {
-        public function show(string $id)
+        public function __invoke(string $id)
     {
         $title = 'Sistem Sekolah - Detail Kelas';
 

@@ -1,80 +1,87 @@
-@extends('layouts.app')
-
-@section('title', $title)
+ @extends('layouts.app')
+       
+       @section('title', $title)
 
 @section('content')
-<main class="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
-    <div class="mb-8 border-b border-[#E5E3DB] pb-5">
-        <a href="{{ route('students.index') }}" class="text-xs uppercase tracking-[0.15em] text-slate-400 hover:text-[#A16207]">
-            &larr; Buku Induk
-        </a>
-        <h1 class="font-display mt-2 text-3xl font-semibold text-[#16213A]">Catat Siswa Baru</h1>
-        <p class="mt-1 text-sm text-slate-500">Isi data untuk mendaftarkan siswa ke buku induk.</p>
-    </div>
+  <main class="mx-auto w-full max-w-2xl flex-1 px-6 py-10">
+        <div class="mb-8 border-b border-[#E5E3DB] pb-5">
+            <a href="" class="text-xs uppercase tracking-[0.15em] text-slate-400 hover:text-[#A16207]">&larr; Buku
+                Induk</a>
+            <h1 class="font-display mt-2 text-3xl font-semibold text-[#16213A]">Catat Siswa Baru</h1>
+            <p class="mt-1 text-sm text-slate-500">Isi data untuk mendaftarkan siswa ke buku induk.</p>
+        </div>
 
-    <form action="{{ route('students.store') }}" method="POST" class="space-y-6 border border-[#E5E3DB] bg-white p-8">
-        @csrf
+        <form action="{{ route('students.store') }}" method="POST" class="space-y-6 border border-[#E5E3DB] bg-white p-8">
+            @csrf  
 
-        <div>
-            <label for="nis" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">NIS</label>
-            <input type="text" id="nis" name="nis" value="{{ old('nis') }}" placeholder="Contoh: 2024010"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
+            <div>
+                <label for="nis"
+                    class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">NIS</label>
+                <input value="{{ old('nis') }}" type="text" id="nis" name="nis" placeholder="Contoh: 2024010"
+                    class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
             @error('nis')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                <span class="text-red-500 py-2">{{ $message }}</span>
             @enderror
-        </div>
+            </div>
 
-        <div>
-            <label for="name" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Nama Lengkap</label>
-            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Nama lengkap siswa"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
+            <div>
+                <label for="name"
+                    class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Nama
+                    Lengkap</label>
+                <input value="{{ old('name') }}" type="text" id="name" name="name" placeholder="Nama lengkap siswa"
+                    class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
             @error('name')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                <span class="text-red-500 py-2">{{ $message }}</span>
             @enderror
-        </div>
+            </div>
 
-        <div>
-            <label for="gender" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jenis Kelamin</label>
-            <select id="gender" name="gender"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
-                <option value="L" {{ old('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                <option value="P" {{ old('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
-            </select>
-            @error('gender')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+            <div>
+                <label for="gender"
+                    class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jenis
+                    Kelamin</label>
+                <select id="gender" name="gender"
+                    class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
+                    <option value="">Pilih Gender</option>
+                    <option @selected(old('gender') == 'Laki-laki') value="Laki-laki">Laki-laki</option>
+                    <option @selected(old('gender') == 'Perempuan') value="Perempuan">Perempuan</option>
+                </select>
+                @error('gender')
+                    <span class="text-red-500 py-2">{{ $message }}</span>
+                @enderror
+            </div>
 
-        <div>
-            <label for="major" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jurusan</label>
-            <select id="major" name="major"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
-                <option value="">Pilih jurusan</option>
-                <option value="AKL" {{ old('major') == 'AKL' ? 'selected' : '' }}>AKL</option>
-                <option value="TKJ" {{ old('major') == 'TKJ' ? 'selected' : '' }}>TKJ</option>
-                <option value="BiD" {{ old('major') == 'BiD' ? 'selected' : '' }}>BiD</option>
-            </select>
-            @error('major')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+            <div>
+                <label for="major"
+                    class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Jurusan</label>
+                <select id="major" name="major"
+                    class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm focus:border-[#A16207] focus:bg-white focus:outline-none">
+                    <option value="">Pilih jurusan</option>
+                    <option @selected(old('major') == 'AKL') value="AKL">AKL</option>
+                    <option @selected(old('major') == 'TKJ') value="TKJ">TKJ</option>
+                    <option @selected(old('major') == 'BID') value="BID">BID</option>
+                </select>
+                @error('major')
+                    <span class="text-red-500 py-2">{{ $message }}</span>
+                @enderror
+            </div>
 
-        <div>
-            <label for="class" class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Kelas</label>
-            <input type="text" id="class" name="class" value="{{ old('class') }}" placeholder="Contoh: X AKL 1"
-                class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
-            @error('class')
-                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-            @enderror
-        </div>
+            <div>
+                <label for="class"
+                    class="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-[#16213A]">Kelas</label>
+                <input value="{{ old('class') }}" type="text" id="class" name="class" placeholder="Contoh: X AKL 1"
+                    class="w-full border border-[#D9D6CD] bg-[#FCFBF8] px-3.5 py-2.5 text-sm placeholder:text-slate-400 focus:border-[#A16207] focus:bg-white focus:outline-none">
+                @error('class')
+                    <span class="text-red-500 py-2">{{ $message }}</span>
+                @enderror
+            </div>
 
-        <div class="flex justify-end gap-4 border-t border-[#EFEDE6] pt-6">
-            <a href="{{ route('students.index') }}" class="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-[#16213A]">Batal</a>
-            <button type="submit"
-                class="bg-[#16213A] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#26324f]">
-                Simpan ke Buku Induk
-            </button>
-        </div>
-    </form>
-</main>
+            <div class="flex justify-end gap-4 border-t border-[#EFEDE6] pt-6">
+                <a href="{{ route('students.index') }}" class="px-4 py-2.5 text-sm font-medium text-slate-500 hover:text-[#16213A]">Batal</a>
+                <button type="submit"
+                    class="bg-[#16213A] px-6 py-2.5 text-sm font-medium text-white transition hover:bg-[#26324f]">Simpan
+                    ke Buku Induk</button>
+            </div>
+        </form>
+    </main>
+
 @endsection
