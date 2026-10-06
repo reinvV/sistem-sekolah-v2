@@ -9,74 +9,71 @@ use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    public function index()
-    {
-        $title = "Sistem Sekolah - Daftar Siswa";
-        $students = Student::select(['id', 'nis', 'name', 'class', 'major'])->get();
+   public function index()
+   {
+      $title = "Sistem Sekolah - Data Siswa";
+      $students = Student::select('id', 'nis', 'name', 'class', 'major')
+      ->get();
+  
+         
+      return view('students.index', [
+         "title" => $title,
+         "students" => $students
+      ]);
+   }
+   public function show(student $student)
+   {
+      $title = "Sistem Sekolah - Detail Siswa";
 
-        return view('students.index',[
-            'title' => $title,
-            'students' => $students
-        ]);
-    }
+     
+      return view('students.show', [
+         'title' => $title,
+         'student' => $student
+      ]);
+   }
+   public function create()
+   {
+      $title = "Sistem Sekolah - Tambah Siswa";
+      return view('students.create', [
+         "title" => $title
+      ]);
+   }
 
-    public function create()
-    {
-        $title = "Sistem Sekolah - Tambah Siswa";
+   public function edit(Student $student)
+   {
+      $title = "Sistem Sekolah - Ubah Siswa";
+      return view('students.edit', [
+         "title" => $title,
+         "student" => $student
+      ]);
+   }
 
-        return view('students.create',[
-            'title' => $title
-        ]);
-    }
+   public function store(StoreRequest $request)
+   {
+      //validasi
+      $validatedRequest = $request->validated();
 
-    public function store(StoreRequest $request)
-    {
-        //validasi
-        $validatedRequest = $request->validated();
+      Student::create($validatedRequest);
 
-        //Sambungkan Ke Database
-        Student::create($validatedRequest);
+      return redirect()->route('students.index'); 
+   }
 
-        //Handle IF Success
-        return redirect()->route('students.index');
-    }
+   public function update(Student $student, UpdateRequest $request)
+   {
+      //validasi
+      $validatedRequest = $request->validate([
+        
+      ]);
+      $student->update($validatedRequest);
 
-    public function show(Student $student)
-    {
-        $title = "Sistem Sekolah - Detail Siswa";
+      return redirect()->route('students.index');
+     
+   }
 
-        return view('students.show',[
-            'title' => $title,
-            'student' => $student
-        ]);
-    }
+   public function destroy (Student $student)
+   {
+      $student->delete();
 
-    public function edit(Student $student)
-    {
-        $title = "Sistem Sekolah - Edit Siswa";
-
-        return view('students.edit', [
-            'title' => $title,
-            'student' => $student
-        ]);
-    }
-
-    public function update(UpdateRequest $request, Student $student)
-    {
-        //validasi
-        $validatedRequest = $request->validated();
-
-
-        // Update the student record
-        $student->update($validatedRequest);
-
-        // Handle if success
-        return redirect()->route('students.index');
-    }
-
-    public function destroy(Student $student)
-    {
-        $student->delete();
-        return redirect()->route('students.index');
-    }
+      return redirect()->route('students.index')   ;
+   }
 }
