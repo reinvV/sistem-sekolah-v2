@@ -61,9 +61,7 @@ class StudentController extends Controller
    public function update(Student $student, UpdateRequest $request)
    {
       //validasi
-      $validatedRequest = $request->validate([
-        
-      ]);
+      $validatedRequest = $request->validated();
       $student->update($validatedRequest);
 
       return redirect()->route('students.index');
