@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nis', 4)->unique();
             $table->string('name');
-            $table->string('gender')->comment('Laki-laki/Perempuan');
+            $table->string('gender')->comment('Laki-Laki / Perempuan');
             $table->string('major');
             $table->string('class');
             $table->timestamps();
